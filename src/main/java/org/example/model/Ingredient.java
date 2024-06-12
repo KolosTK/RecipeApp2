@@ -44,5 +44,11 @@ public class Ingredient {
         this.name = name;
         this.price = price;
     }
+
+    public Ingredient(Integer id, String name, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
 }
 
