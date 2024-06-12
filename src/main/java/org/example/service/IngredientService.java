@@ -12,6 +12,9 @@ public class IngredientService {
     @Autowired
     IIngredientRepository ingredientRepository;
     public Ingredient addIngredient(Ingredient ingredient) {
+        if (ingredientRepository.existsByName(ingredient.getName())) {
+            throw new IllegalStateException("Ingredient with name " + ingredient.getName() + " already exists.");
+        }
         return ingredientRepository.save(ingredient);
     }
     
@@ -47,5 +50,9 @@ public class IngredientService {
             ingredient.setPrice(ingredientDetails.getPrice());
             return ingredientRepository.save(ingredient);
         }).orElse(null);
+    }
+
+    public List<Ingredient> addAllIngredients(List<Ingredient> ingredients) {
+        return ingredientRepository.saveAll(ingredients);
     }
 }

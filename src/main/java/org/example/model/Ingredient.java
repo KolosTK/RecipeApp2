@@ -31,6 +31,10 @@ public class Ingredient {
     @NotNull
     @Column(nullable = false)
     private BigDecimal price;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;  // Back-reference to the Recipe
 
     // Default constructor for JPA
     public Ingredient() {

@@ -44,12 +44,23 @@ public class IngredientController {
         }
     }
     @PostMapping
-    public ResponseEntity<Ingredient> storeIngredient(@RequestBody Ingredient ingredient) {
+    public ResponseEntity<?> storeIngredient(@RequestBody Ingredient ingredient) {
         try {
             Ingredient savedIngredient = ingredientService.addIngredient(ingredient);
             return ResponseEntity.ok(savedIngredient);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // New endpoint for multiple ingredients
+    @PostMapping("/bulk")
+    public ResponseEntity<?> storeIngredients(@RequestBody List<Ingredient> ingredients) {
+        try {
+            List<Ingredient> savedIngredients = ingredientService.addAllIngredients(ingredients);
+            return ResponseEntity.ok(savedIngredients);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(null); // Or handle the exception more gracefully
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     @Transactional
